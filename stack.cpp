@@ -1,87 +1,37 @@
 #include <iostream>
-#include <stack>
 #include <string>
-
 using namespace std;
 
-// Define a structure to represent administrative actions
+// Define a structure for Actions (used in stack for undo functionality)
 struct Action {
-    string actionType;  // e.g., "Add Participant", "Remove Event"
-    string details;     // Details about the action, e.g., participant name, event name
-
-    // Constructor for easy initialization
-    Action(string type, string det) : actionType(type), details(det) {}
+    string actionType; // Type of action (e.g., "Add Event", "Register Participant")
+    string details;    // Details about the action (e.g., event or participant name)
+    Action* next;      // Pointer to the next action in the stack
 };
 
-class AdminActions {
-private:
-    stack<Action> actionStack;  // Stack to store actions
+// Top of the stack for undo functionality
+Action* actionStack = nullptr;
 
-public:
-    // Function to add an action to the stack
-    void performAction(const string& actionType, const string& details) {
-        // Create a new action with the provided type and details
-        Action newAction(actionType, details);
-        // Push the action onto the stack
-        actionStack.push(newAction);
-        // Notify the user that the action has been performed
-        cout << "Action performed: " << actionType << " - " << details << endl;
+// Function to record an action on the stack
+void recordAction(const string& actionType, const string& details) {
+    Action* newAction = new Action{actionType, details, actionStack};
+    actionStack = newAction;
+}
+
+// Function to undo the last action
+void undoLastAction() {
+    if (!actionStack) { // Check if the stack is empty
+        cout << "No actions to undo.\n";
+        return;
     }
 
-    // Function to undo the last action
-    void undoLastAction() {
-        // Check if the stack is empty
-        if (actionStack.empty()) {
-            cout << "No actions to undo." << endl;
-            return; // Exit if there are no actions to undo
-        }
-        // Retrieve the last action from the stack
-        Action lastAction = actionStack.top();
-        // Remove the last action from the stack
-        actionStack.pop();
-        // Notify the user of the undone action
-        cout << "Undone action: " << lastAction.actionType << " - " << lastAction.details << endl;
-    }
+    // Retrieve and remove the top action from the stack
+    Action* temp = actionStack;
+    actionStack = actionStack->next;
 
-    // Function to display the current stack of actions
-    void displayActions() {
-        // Check if the stack is empty
-        if (actionStack.empty()) {
-            cout << "No actions in the stack." << endl;
-            return; // Exit if there are no actions to display
-        }
+    // Display the undone action
+    cout << "Undid action: " << temp->actionType << " (" << temp->details << ")\n";
 
-        // Create a temporary stack to iterate through the current actions
-        stack<Action> tempStack = actionStack;
-        cout << "Current actions in the stack:" << endl;
-        while (!tempStack.empty()) {
-            // Get the top action from the temporary stack
-            Action action = tempStack.top();
-            // Remove the action from the temporary stack
-            tempStack.pop();
-            // Display the action details
-            cout << "- " << action.actionType << ": " << action.details << endl;
-        }
-    }
-};
-
-// Main function to demonstrate functionality
-int main() {
-    AdminActions admin;
-
-    // Perform some actions
-    admin.performAction("Add Participant", "John Doe"); // Add a participant named John Doe
-    admin.performAction("Remove Event", "Tech Talk 2024"); // Remove an event named Tech Talk 2024
-    admin.performAction("Add Participant", "Jane Smith"); // Add a participant named Jane Smith
-
-    // Display current actions
-    admin.displayActions();
-
-    // Undo the last action
-    admin.undoLastAction(); // Undo the action of adding Jane Smith
-
-    // Display actions after undo
-    admin.displayActions();
-
-    return 0;
+    // Free the memory for the removed action
+    delete temp;
 }

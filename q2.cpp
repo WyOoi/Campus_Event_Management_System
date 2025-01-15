@@ -11,30 +11,18 @@ struct Event {
 
 class EventManager {
 private:
-   
     Event* events;    // Dynamic array for storing events
     int eventCount;   // Number of events currently stored
     int capacity;     // Maximum number of events
     void resizeArray();// Function to resize the dynamic array when full
 
 public:
-    // Constructor
-    EventManager();
-
-    // Destructor
-    ~EventManager();
-
-    // Add an event
-    void addEvent();
-
-    // Display all events
-    void displayAllEvents();
-
-    // Update an event
-    void updateEvent();
-
-    // Delete an event
-    void deleteEvent();
+    EventManager();// Constructor
+    ~EventManager();// Destructor
+    void addEvent();// Add an event
+    void displayAllEvents();// Display all events
+    void updateEvent();// Update an event
+    void deleteEvent();// Delete an event
 };
 
 EventManager::EventManager() {
@@ -43,8 +31,7 @@ EventManager::EventManager() {
     eventCount = 0;
 }
 
-EventManager::~EventManager()
-{
+EventManager::~EventManager(){
     delete[] events;
 }
 

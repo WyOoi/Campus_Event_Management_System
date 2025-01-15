@@ -2,23 +2,37 @@
 #include <string>
 using namespace std;
 
-// Function to sort the event IDs using bubble sort
-void bubbleSort(int ids[], string events[], int size) {
-    for (int j = 0; j < size - 1; j++) {
-        for (int i = 0; i < size - j - 1; i++) {
-            // Compare adjacent event IDs
-            if (ids[i] > ids[i + 1]) {
-                // Swap event IDs
-                int tempId = ids[i];
-                ids[i] = ids[i + 1];
-                ids[i + 1] = tempId;
+// Function to partition the array for quick sort
+int partition(int ids[], string events[], int low, int high) {
+    int pivot = ids[high]; // Choose the last element as the pivot
+    int i = low - 1;       // Index of smaller element
 
-                // Swap corresponding event names
-                string tempEvent = events[i];
-                events[i] = events[i + 1];
-                events[i + 1] = tempEvent;
-            }
+    for (int j = low; j < high; j++) {
+        if (ids[j] < pivot) { // If the current element is smaller than the pivot
+            i++; // Increment the index of the smaller element
+            
+            // Swap ids
+            swap(ids[i], ids[j]);
+            // Swap corresponding events
+            swap(events[i], events[j]);
         }
+    }
+
+    // Swap the pivot element with the element at i+1
+    swap(ids[i + 1], ids[high]);
+    swap(events[i + 1], events[high]);
+
+    return i + 1; // Return the partitioning index
+}
+
+// Function to perform quick sort on the array
+void quickSort(int ids[], string events[], int low, int high) {
+    if (low < high) {
+        int pi = partition(ids, events, low, high); // Partition index
+
+        // Recursively sort elements before and after partition
+        quickSort(ids, events, low, pi - 1);
+        quickSort(ids, events, pi + 1, high);
     }
 }
 
@@ -61,8 +75,8 @@ int main() {
     string eventNames[] = {"Sports Day", "Tech Fest", "Music Night", "Art Exhibition", "Seminar"};
     int size = sizeof(eventIDs) / sizeof(eventIDs[0]); // Determine the size of the array
 
-    // Sort events by ID for binary search
-    bubbleSort(eventIDs, eventNames, size);
+    // Sort events by ID for binary search using quick sort
+    quickSort(eventIDs, eventNames, 0, size - 1);
 
     // Display the sorted list of events
     displayEvents(eventIDs, eventNames, size);

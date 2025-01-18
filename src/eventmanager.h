@@ -25,7 +25,7 @@ class Stack {
 private:
     Action* top;
 public:
-    Stack() : top(NULL) {}
+    Stack() : top(nullptr) {}
     ~Stack() { Clear(); }
 
     void Push(const string& actionType, const string& details) {
@@ -34,7 +34,7 @@ public:
     }
 
     Action* Pop() {
-        if (!top) return NULL;
+        if (!top) return nullptr;
         Action* result = top;
         top = top->next;
         return result;
@@ -143,7 +143,7 @@ public:
         getline(cin, newEvent.location);
 
         events[eventCount] = newEvent;
-        waitingLists[eventCount] = NULL;
+        waitingLists[eventCount] = nullptr;
         waitingListSizes[eventCount] = 0;
         eventCount++;
 

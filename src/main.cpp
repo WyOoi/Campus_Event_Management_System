@@ -1,27 +1,7 @@
 #include <iostream>
-#include <string>
-#include <stack_2.h>
-#include <eventmanager.h>
+#include<string>
+#include "eventmanager.h"
 using namespace std;
-
-struct Event {
-    int id;
-    string name;
-    string date;
-    string time;
-    string location;
-};
-
-struct Participant {
-    string name;
-    string contact;
-};
-
-struct Action {
-    string actionType;
-    string details;
-    Action* next;
-};
 
 int main() {
     EventManager manager;

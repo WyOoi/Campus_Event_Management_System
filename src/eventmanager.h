@@ -1,3 +1,66 @@
+#include<string>
+#include<iostream>
+using namespace std;
+
+struct Event {
+    int id;
+    string name;
+    string date;
+    string time;
+    string location;
+};
+
+struct Participant {
+    string name;
+    string contact;
+};
+
+struct Action {
+    string actionType;
+    string details;
+    Action* next;
+};
+
+class Stack {
+private:
+    Action* top;
+public:
+    Stack() : top(NULL) {}
+    ~Stack() { Clear(); }
+
+    void Push(const string& actionType, const string& details) {
+        Action* newAction = new Action{actionType, details, top};
+        top = newAction;
+    }
+
+    Action* Pop() {
+        if (!top) return NULL;
+        Action* result = top;
+        top = top->next;
+        return result;
+    }
+
+    void Clear() {
+        while (top) {
+            Action* temp = top;
+            top = top->next;
+            delete temp;
+        }
+    }
+
+    void Display() {
+        if (!top) {
+            cout << "No actions in stack." << endl;
+            return;
+        }
+        Action* current = top;
+        while (current) {
+            cout << "Action: " << current->actionType << ", Details: " << current->details << endl;
+            current = current->next;
+        }
+    }
+};
+
 class EventManager {
 private:
     Event* events;
@@ -80,7 +143,7 @@ public:
         getline(cin, newEvent.location);
 
         events[eventCount] = newEvent;
-        waitingLists[eventCount] = nullptr;
+        waitingLists[eventCount] = NULL;
         waitingListSizes[eventCount] = 0;
         eventCount++;
 

@@ -424,3 +424,9 @@ int main() {
         } else if (modeChoice == 2) { // User mode
             userMode(manager); // Enter User Mode
         } else { // Invalid mode selection
+        cout << "Invalid mode selected. Please try again.\n";
+        }
+    }
+
+    return 0;
+}

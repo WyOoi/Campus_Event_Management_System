@@ -110,11 +110,24 @@ private:
     }
 
 public:
-    EventManager() : eventCount(0), capacity(5) {
-        events = new Event[capacity];
-        waitingListSizes = new int[capacity]{};
-        waitingLists = new Participant*[capacity]{};
-    }
+    EventManager() : eventCount(0), capacity(10) { // Set initial capacity to 10
+    events = new Event[capacity];
+    waitingListSizes = new int[capacity](); // Initialize all sizes to 0
+    waitingLists = new Participant*[capacity](); // Initialize all pointers to nullptr
+
+    // Preload 10 events
+    events[eventCount++] = {1, "Tech Conference", "2025-01-20", "09:00 AM", "Hall A"};
+    events[eventCount++] = {2, "Art Workshop", "2025-01-21", "11:00 AM", "Room 102"};
+    events[eventCount++] = {3, "Music Concert", "2025-01-22", "07:00 PM", "Open Grounds"};
+    events[eventCount++] = {4, "Coding Hackathon", "2025-01-23", "10:00 AM", "Lab 304"};
+    events[eventCount++] = {5, "Startup Pitch", "2025-01-24", "02:00 PM", "Hall B"};
+    events[eventCount++] = {6, "Photography Contest", "2025-01-25", "03:00 PM", "Room 210"};
+    events[eventCount++] = {7, "Literary Meet", "2025-01-26", "04:00 PM", "Room 301"};
+    events[eventCount++] = {8, "Robotics Expo", "2025-01-27", "01:00 PM", "Hall C"};
+    events[eventCount++] = {9, "Science Fair", "2025-01-28", "10:00 AM", "Main Hall"};
+    events[eventCount++] = {10, "Fitness Workshop", "2025-01-29", "08:00 AM", "Gym"};
+}
+
 
     ~EventManager() {
         delete[] events;

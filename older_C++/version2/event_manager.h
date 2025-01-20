@@ -2,9 +2,9 @@
 #define EVENT_MANAGER_H
 
 #include "event_structs.h"
-#include "stack.h"
-#include "queue.h"
-#include "quicksort.h"
+#include "stack2.h"
+#include "queue2.h"
+#include "quicksort2.h"
 
 class EventManager {
 public:
